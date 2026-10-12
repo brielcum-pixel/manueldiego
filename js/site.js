@@ -107,11 +107,11 @@
       return;
     }
     mount.innerHTML = puppies.slice(0, limit).map(function (p) {
-      var img = (p.images && p.images[0]) || { file: "assets/images/placeholder.svg", alt: "Photograph to be confirmed" };
+      var img = (p.images && p.images[0]) || { file: "assets/images/placeholder.svg", alt: "Fotografía por confirmar" };
       return (
         '<article class="listing-card">' +
           '<img src="' + escapeHtml(img.file) + '" alt="' + escapeHtml(img.alt) + '" loading="lazy">' +
-          "<h3>" + escapeHtml(p.name || "[Name to be confirmed]") + "</h3>" +
+          "<h3>" + escapeHtml(p.name || "[Nombre por confirmar]") + "</h3>" +
         "</article>"
       );
     }).join("");
@@ -128,7 +128,7 @@
       return;
     }
     mount.innerHTML = items.map(function (a) {
-      return "<article><h3>" + escapeHtml(a.name || "[Product name to be confirmed]") + "</h3></article>";
+      return "<article><h3>" + escapeHtml(a.name || "[Producto por confirmar]") + "</h3></article>";
     }).join("");
   }
 
