@@ -1,18 +1,28 @@
-/* LAGOTTO WATERS WAGS : central content and configuration.
-   Portfolio showcase only. This site collects nothing, sells nothing, and
-   books nothing. There are no forms, no messaging links, and no checkout.
-   All business content lives here so the owner can update listings and text
-   without touching layout code. */
+/* MANUEL DIEGO : central content.
+   Showcase only. No forms, no messaging links, no checkout, no stats.
+   Legacy Lagotto slots are retained so archive redirect pages keep
+   working. New editorial images live in public/images/manuel-diego/. */
 
 const SITE = {
-  name: "LAGOTTO WATERS WAGS",
-  tagline: "Lagotto puppies, considered accessories, and truffle offerings",
+  name: "MANUEL DIEGO",
+  tagline: "Model, fashion portfolio and brand collaborations",
   baseUrl: ""
 };
 
-/* Central image slots. Owner photographs live in assets/images/ and are
-   referenced below. Alt text describes what is actually visible in each file.
-   No stock or generated images are used. */
+/* Supplied Manuel Diego photographs. Save the 8 attached photos under
+   these exact filenames. See public/images/manuel-diego/README.md. */
+const MANUEL_SLOTS = {
+  hero: { file: "public/images/manuel-diego/hero.jpg", alt: "Manuel Diego in a cable knit sweater over a white collar against a stone wall" },
+  editorial01: { file: "public/images/manuel-diego/editorial-01.jpg", alt: "Manuel Diego, studio portrait in a white sculptural jacket with gold detail" },
+  editorial02: { file: "public/images/manuel-diego/editorial-02.jpg", alt: "Manuel Diego, diptych portrait with red lip close-up and evening portrait" },
+  editorial03: { file: "public/images/manuel-diego/editorial-03.jpg", alt: "Manuel Diego, collage of performance and portrait frames in leather and evening styling" },
+  statement: { file: "public/images/manuel-diego/statement.jpg", alt: "Manuel Diego, black and white scene in conversation at a terrace table" },
+  style01: { file: "public/images/manuel-diego/style-01.jpg", alt: "Manuel Diego, diptych in dark pinstripe tailoring and white tailoring with gold detail" },
+  style02: { file: "public/images/manuel-diego/style-02.jpg", alt: "Manuel Diego, close portrait in a white top with a pendant necklace" },
+  about: { file: "public/images/manuel-diego/about.jpg", alt: "Manuel Diego, soft studio portrait with hair in a bun and floral blouse" }
+};
+
+/* Legacy image slots retained for archive pages. */
 const IMAGE_SLOTS = {
   heroForestPortrait: {
     file: "assets/images/hero-forest-portrait.jpg",
@@ -52,16 +62,6 @@ const IMAGE_SLOTS = {
   }
 };
 
-/* Puppy profiles. Empty until the owner confirms real listings with verified
-   names, descriptions, and photographs. No prices or stock shown meanwhile.
-   A future confirmed profile will use this shape:
-   { id, name, status, summary, sex, birthDate, images: [{file, alt}] } */
 const PUPPIES = [];
-
-/* Accessories. Empty until the owner confirms real products with verified
-   names, descriptions, and photographs. No prices or stock shown meanwhile. */
 const ACCESSORIES = [];
-
-/* Truffle and other offerings. Flexible by design so future categories can
-   join without restructuring. Entries appear only when confirmed. */
 const OFFERINGS = [];
