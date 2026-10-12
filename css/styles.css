@@ -1,7 +1,8 @@
 /* LAGOTTO WATERS WAGS : single page editorial portfolio.
    Monochrome mood drawn from the black-and-white reference: soft ivory,
    silver grey, medium grey, deep charcoal. Flat color only. No gradients,
-   no shadows, no hover animations, no transitions, no decorative effects. */
+   no shadows, no decorative effects. Motion is restrained: short fades on
+   scroll and quiet link transitions, all disabled under reduced motion. */
 
 :root {
   --ivory: #F4F1EA;
@@ -33,6 +34,7 @@ body {
   font-size: 17px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 ::selection { background: var(--charcoal); color: var(--paper); }
@@ -105,7 +107,13 @@ a { color: var(--ink); text-underline-offset: 3px; }
   padding: 0.4rem 0.1rem;
   border-bottom: 2px solid transparent;
 }
-.nav-desktop a[aria-current="true"] { border-color: var(--paper-dim); }
+.nav-desktop a[aria-current] { border-color: var(--paper-dim); }
+.nav-desktop a, .mobile-nav a, .footer-nav a, main a {
+  transition: color 160ms ease-out, border-color 160ms ease-out;
+}
+.nav-desktop a:hover { border-color: var(--paper); }
+.footer-nav a:hover { color: var(--paper); }
+main p a:hover { color: var(--taupe); }
 .site-header :focus-visible { outline-color: var(--paper); }
 
 .menu-button {
@@ -199,6 +207,7 @@ figure.photo figcaption, .gallery figcaption {
 .img-tall { aspect-ratio: 3 / 4; object-fit: cover; }
 .img-wide { aspect-ratio: 16 / 10; object-fit: cover; }
 .img-square { aspect-ratio: 1 / 1; object-fit: cover; }
+.img-focus-low { object-position: center 82%; }
 
 /* Puppies: editorial rhythm, varying proportions, no cards */
 .puppy-lead { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 4vw, 4rem); align-items: start; margin-top: 2rem; }
@@ -233,7 +242,7 @@ figure.photo figcaption, .gallery figcaption {
 .g-half { grid-column: span 6; aspect-ratio: 4 / 3; }
 .g-small { grid-column: span 4; aspect-ratio: 1 / 1; }
 .g-mid { grid-column: span 8; aspect-ratio: 16 / 9; }
-.g-full { grid-column: 1 / -1; aspect-ratio: 21 / 9; }
+.g-full { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
 
 /* Closing: full bleed photograph with restrained panel */
 .closing { background: var(--charcoal-deep); color: var(--paper); border-top: 1px solid var(--charcoal-deep); }
@@ -261,6 +270,16 @@ figure.photo figcaption, .gallery figcaption {
   margin-top: 1.5rem;
 }
 
+/* Restrained entrance reveals, activated by script only when motion is safe.
+   Content stays visible without script support. */
+[data-reveal] { opacity: 1; }
+html.reveal-on [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 560ms ease-out, transform 560ms ease-out;
+}
+html.reveal-on [data-reveal].is-in { opacity: 1; transform: none; }
+
 @media (max-width: 960px) {
   .split, .puppy-lead, .puppy-pair, .goods, .goods-detail, .truffle-cols, .closing-body { grid-template-columns: 1fr; }
   .g-tall, .g-wide, .g-half, .g-small, .g-mid { grid-column: span 6; }
@@ -278,4 +297,6 @@ figure.photo figcaption, .gallery figcaption {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  html.reveal-on [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .nav-desktop a, .mobile-nav a, .footer-nav a, main a { transition: none; }
 }

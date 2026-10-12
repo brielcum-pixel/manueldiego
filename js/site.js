@@ -1,5 +1,6 @@
 /* Shared site behavior: navigation, image slots, legacy listing mounts.
-   Portfolio showcase only. Presentation and navigation code. No animations. */
+   Restrained motion only: fade reveals on scroll and anchor scrollspy.
+   Everything stays readable and usable with reduced motion or no script. */
 (function () {
   "use strict";
 
@@ -39,6 +40,52 @@
         button.focus();
       }
     });
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 960 && nav.classList.contains("open")) {
+        nav.classList.remove("open");
+        button.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  function motionIsSafe() {
+    return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function setupReveals() {
+    var items = document.querySelectorAll("[data-reveal]");
+    if (!items.length || !motionIsSafe() || !("IntersectionObserver" in window)) return;
+    document.documentElement.classList.add("reveal-on");
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    items.forEach(function (el) { observer.observe(el); });
+  }
+
+  function setupScrollSpy() {
+    var links = document.querySelectorAll('.site-header a[href^="#"], .site-footer a[href^="#"]');
+    var sections = document.querySelectorAll("section[id]");
+    if (!links.length || !sections.length || !("IntersectionObserver" in window)) return;
+    var byId = {};
+    links.forEach(function (link) {
+      var id = link.getAttribute("href").slice(1);
+      if (id) (byId[id] = byId[id] || []).push(link);
+    });
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        links.forEach(function (link) { link.removeAttribute("aria-current"); });
+        (byId[entry.target.id] || []).forEach(function (link) {
+          link.setAttribute("aria-current", "true");
+        });
+      });
+    }, { rootMargin: "-38% 0px -55% 0px" });
+    sections.forEach(function (section) { observer.observe(section); });
   }
 
   function hydrateImages() {
@@ -186,6 +233,8 @@
   document.addEventListener("DOMContentLoaded", function () {
     markActiveNav();
     setupMobileNav();
+    setupReveals();
+    setupScrollSpy();
     hydrateImages();
     renderPuppyCards("puppy-cards", { limit: 4 });
     renderPuppyCards("puppy-cards-full", {});
